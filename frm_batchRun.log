@@ -1,0 +1,17 @@
+Line 27: Class FPUSpreadADO.fpSpread of control ss_batchInfo was not a loaded control class.
+Line 55: Class HexUniControls.ctlUniListBoxExXP of control lst_towersInUse was not a loaded control class.
+Line 90: Class HexUniControls.ctlUniButtonImageXP of control cmd_abortBatch was not a loaded control class.
+Line 134: Class ResizeLibCtl.ReSize of control ReSize1 was not a loaded control class.
+Line 147: Class HexUniControls.ctlUniButtonImageXP of control cmd_exit was not a loaded control class.
+Line 180: Class HexUniControls.ctlUniLabel of control lbl_scanProgress was not a loaded control class.
+Line 212: Class HexUniControls.ctlProgressXP of control scanProgress was not a loaded control class.
+Line 231: Class HexUniControls.ctlUniButtonImageXP of control cmd_batchReport was not a loaded control class.
+Line 263: Class HexUniControls.ctlUniLabel of control lbl_batchProgress was not a loaded control class.
+Line 295: Class HexUniControls.ctlUniLabel of control lbl_batchProgress2 was not a loaded control class.
+Line 327: Class HexUniControls.ctlUniLabel of control lbl_batchName was not a loaded control class.
+Line 359: Class HexUniControls.ctlUniLabel of control lbl_batchNameFile was not a loaded control class.
+Line 391: Class HexUniControls.ctlUniLabel of control lbl_autoSamplrVer was not a loaded control class.
+Line 423: Class HexUniControls.ctlUniButtonImageXP of control cmd_emergencyStop was not a loaded control class.
+Line 455: Class AutoSamplerCommCtrl.AutoSamplerComm of control autoSmplr was not a loaded control class.
+Line 464: Class HexUniControls.ctlUniFormCaption of control uniTitle was not a loaded control class.
+Line 471: Class HexUniControls.ctlUniTooltipManager of control ctlUniTooltipManager1 was not a loaded control class.

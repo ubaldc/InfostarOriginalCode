@@ -1,0 +1,14 @@
+1) Added new project to support ABB-Bomen FT Interferometer (InfoStar-FT.vbp).
+
+2) Added support for Auto-Sampler and batch runs.
+
+3) Added new project to support new SpectraStar Remote Control Service (InfoStar-SSRCS.vbp).
+
+4) Fixed SpectraStar Settings screen to display proper sample table number.
+
+5) Swapped upShift and dnShift elements position in MS11SrvDefines.bas MS11Cfg structure.
+
+6) Added code to save last entered user input values so that they can be restored after modifying or loading a product.
+
+
+7) Added internal reference calibration management feature.

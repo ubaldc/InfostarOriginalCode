@@ -1,0 +1,1378 @@
+{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Courier New;}}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1033\f0\fs22 VERSION 5.00\par
+Object = "\{8DE5B8DC-0E8E-406B-A81B-C0874223E2EF\}#48.0#0"; "AutoSamplerComm.ocx"\par
+Begin VB.Form Form1 \par
+   Caption         =   "Auto-Sampler Comms Test"\par
+   ClientHeight    =   10545\par
+   ClientLeft      =   60\par
+   ClientTop       =   450\par
+   ClientWidth     =   8775\par
+   LinkTopic       =   "Form1"\par
+   ScaleHeight     =   10545\par
+   ScaleWidth      =   8775\par
+   StartUpPosition =   2  'CenterScreen\par
+   Begin VB.CommandButton cmd_rebootSys \par
+      Caption         =   "Reboot System"\par
+      Height          =   495\par
+      Left            =   6720\par
+      TabIndex        =   82\par
+      Top             =   8040\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getNumCtrlWords \par
+      Caption         =   "Get # of Control Words"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   81\par
+      Top             =   9720\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getCtrlWord \par
+      Caption         =   "Get Control Word"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   80\par
+      Top             =   9720\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_ctrlWordIndx \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Index           =   1\par
+      Left            =   4560\par
+      TabIndex        =   78\par
+      Text            =   "100"\par
+      Top             =   9810\par
+      Width           =   495\par
+   End\par
+   Begin VB.CommandButton cmd_setCtrlWord \par
+      Caption         =   "Set Control Word"\par
+      Height          =   495\par
+      Left            =   3120\par
+      TabIndex        =   76\par
+      Top             =   9720\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_ctrlVal \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   5280\par
+      TabIndex        =   75\par
+      Text            =   "0"\par
+      Top             =   9840\par
+      Width           =   615\par
+   End\par
+   Begin VB.TextBox txt_armLoc \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   8160\par
+      TabIndex        =   73\par
+      Text            =   "0"\par
+      Top             =   8880\par
+      Width           =   375\par
+   End\par
+   Begin VB.CommandButton cmd_abortOps \par
+      Caption         =   "Abort Operations"\par
+      Height          =   495\par
+      Left            =   6720\par
+      TabIndex        =   72\par
+      Top             =   7320\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_parkArm \par
+      Caption         =   "Park Arm"\par
+      Height          =   495\par
+      Left            =   6720\par
+      TabIndex        =   71\par
+      Top             =   5520\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_surveyArmLoc \par
+      Caption         =   "Survey Arm Location"\par
+      Height          =   495\par
+      Left            =   6720\par
+      TabIndex        =   70\par
+      Top             =   8760\par
+      Width           =   1215\par
+   End\par
+   Begin VB.ListBox lst_baud \par
+      Height          =   450\par
+      ItemData        =   "Form1.frx":0000\par
+      Left            =   2160\par
+      List            =   "Form1.frx":0010\par
+      TabIndex        =   2\par
+      Top             =   480\par
+      Width           =   855\par
+   End\par
+   Begin VB.ListBox lst_parity \par
+      Height          =   450\par
+      ItemData        =   "Form1.frx":002D\par
+      Left            =   3240\par
+      List            =   "Form1.frx":003A\par
+      TabIndex        =   3\par
+      Top             =   480\par
+      Width           =   855\par
+   End\par
+   Begin VB.CommandButton cmd_initComms \par
+      Caption         =   "Init Comms"\par
+      Height          =   495\par
+      Left            =   120\par
+      TabIndex        =   0\par
+      Top             =   360\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_ackVal \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   4320\par
+      TabIndex        =   42\par
+      Text            =   "8000"\par
+      Top             =   8040\par
+      Width           =   615\par
+   End\par
+   Begin VB.CommandButton cmd_getVerInfo \par
+      Caption         =   "Get Version Info"\par
+      Height          =   495\par
+      Left            =   5160\par
+      TabIndex        =   29\par
+      Top             =   5520\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_cmdID \par
+      Height          =   375\par
+      Left            =   1200\par
+      TabIndex        =   19\par
+      TabStop         =   0   'False\par
+      Top             =   3960\par
+      Width           =   1575\par
+   End\par
+   Begin VB.TextBox txt_inpChangedState \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   1680\par
+      TabIndex        =   8\par
+      TabStop         =   0   'False\par
+      Top             =   1440\par
+      Width           =   615\par
+   End\par
+   Begin VB.TextBox txt_inpChanged \par
+      Height          =   375\par
+      Left            =   120\par
+      TabIndex        =   7\par
+      TabStop         =   0   'False\par
+      Top             =   1440\par
+      Width           =   1335\par
+   End\par
+   Begin VB.Frame Frame4 \par
+      Caption         =   "State"\par
+      Height          =   975\par
+      Left            =   6480\par
+      TabIndex        =   63\par
+      Top             =   2760\par
+      Width           =   855\par
+      Begin VB.OptionButton opt_dtrOff \par
+         Caption         =   "Off"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   18\par
+         TabStop         =   0   'False\par
+         Top             =   600\par
+         Width           =   615\par
+      End\par
+      Begin VB.OptionButton opt_dtrOn \par
+         Caption         =   "On"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   64\par
+         TabStop         =   0   'False\par
+         Top             =   240\par
+         Width           =   615\par
+      End\par
+   End\par
+   Begin VB.CommandButton cmd_setDTRState \par
+      Caption         =   "Set DTR State"\par
+      Height          =   495\par
+      Left            =   5040\par
+      TabIndex        =   17\par
+      Top             =   3000\par
+      Width           =   1215\par
+   End\par
+   Begin VB.Frame Frame3 \par
+      Caption         =   "State"\par
+      Height          =   975\par
+      Left            =   1680\par
+      TabIndex        =   16\par
+      Top             =   2760\par
+      Width           =   855\par
+      Begin VB.OptionButton opt_rtsOn \par
+         Caption         =   "On"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   62\par
+         TabStop         =   0   'False\par
+         Top             =   240\par
+         Width           =   615\par
+      End\par
+      Begin VB.OptionButton opt_rtsOff \par
+         Caption         =   "Off"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   61\par
+         TabStop         =   0   'False\par
+         Top             =   600\par
+         Width           =   615\par
+      End\par
+   End\par
+   Begin VB.CommandButton cmd_setRTSState \par
+      Caption         =   "Set RTS State"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   15\par
+      Top             =   3000\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getDSRState \par
+      Caption         =   "Get DSR State"\par
+      Height          =   495\par
+      Left            =   5040\par
+      TabIndex        =   13\par
+      Top             =   2040\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_dsrState \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   6480\par
+      TabIndex        =   14\par
+      TabStop         =   0   'False\par
+      Top             =   2160\par
+      Width           =   615\par
+   End\par
+   Begin VB.CommandButton cmd_getDCDState \par
+      Caption         =   "Get DCD State"\par
+      Height          =   495\par
+      Left            =   2640\par
+      TabIndex        =   11\par
+      Top             =   2040\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_dcdState \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   4080\par
+      TabIndex        =   12\par
+      TabStop         =   0   'False\par
+      Top             =   2160\par
+      Width           =   615\par
+   End\par
+   Begin VB.TextBox txt_ctsState \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   1680\par
+      TabIndex        =   10\par
+      TabStop         =   0   'False\par
+      Top             =   2160\par
+      Width           =   615\par
+   End\par
+   Begin VB.CommandButton cmd_getCTSState \par
+      Caption         =   "Get CTS State"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   9\par
+      Top             =   2040\par
+      Width           =   1215\par
+   End\par
+   Begin AutoSamplerCommCtrl.AutoSamplerComm autoSmplr \par
+      Height          =   735\par
+      Left            =   6480\par
+      TabIndex        =   57\par
+      Top             =   3960\par
+      Visible         =   0   'False\par
+      Width           =   855\par
+      _ExtentX        =   1508\par
+      _ExtentY        =   1296\par
+   End\par
+   Begin VB.ListBox lst_tubeState \par
+      Height          =   840\par
+      ItemData        =   "Form1.frx":004F\par
+      Left            =   5160\par
+      List            =   "Form1.frx":005F\par
+      TabIndex        =   47\par
+      Top             =   8400\par
+      Width           =   1335\par
+   End\par
+   Begin VB.TextBox txt_tubeIndx \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Index           =   0\par
+      Left            =   4560\par
+      TabIndex        =   46\par
+      Text            =   "0"\par
+      Top             =   8880\par
+      Width           =   375\par
+   End\par
+   Begin VB.CommandButton cmd_setTubeState \par
+      Caption         =   "Set Tube State"\par
+      Height          =   495\par
+      Left            =   3120\par
+      TabIndex        =   45\par
+      Top             =   8760\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getAllTubesStates \par
+      Caption         =   "Get All Tubes States"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   43\par
+      Top             =   8760\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getTubeState \par
+      Caption         =   "Get Tube State"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   44\par
+      Top             =   8760\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_setCupPosCtrl \par
+      Caption         =   "Set Cup Position && Ctrl"\par
+      Height          =   495\par
+      Left            =   3120\par
+      TabIndex        =   32\par
+      Top             =   6480\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_attempts \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   5160\par
+      TabIndex        =   5\par
+      Text            =   "1"\par
+      Top             =   480\par
+      Width           =   375\par
+   End\par
+   Begin VB.TextBox txt_statWord \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   3360\par
+      TabIndex        =   41\par
+      Text            =   "0"\par
+      Top             =   8040\par
+      Width           =   375\par
+   End\par
+   Begin VB.CommandButton cmd_getStatWord \par
+      Caption         =   "Get Status Word"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   39\par
+      Top             =   7920\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_ackStatWord \par
+      Caption         =   "Ack Status Word"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   40\par
+      Top             =   7920\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_closeComms \par
+      Caption         =   "Close Comms"\par
+      Height          =   495\par
+      Left            =   6120\par
+      TabIndex        =   6\par
+      Top             =   360\par
+      Width           =   1215\par
+   End\par
+   Begin VB.TextBox txt_rspTimeout \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   4320\par
+      TabIndex        =   4\par
+      Text            =   "1000"\par
+      Top             =   480\par
+      Width           =   615\par
+   End\par
+   Begin VB.TextBox txt_port \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   1560\par
+      TabIndex        =   1\par
+      Text            =   "1"\par
+      Top             =   480\par
+      Width           =   375\par
+   End\par
+   Begin VB.CommandButton cmd_clrErrors \par
+      Caption         =   "Clear Errors"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   38\par
+      Top             =   7200\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getErrors \par
+      Caption         =   "Get Errors"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   37\par
+      Top             =   7200\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_setCupPos \par
+      Caption         =   "Set Cup Position"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   31\par
+      Top             =   6480\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_getCupPos \par
+      Caption         =   "Get Cup Position"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   30\par
+      Top             =   6480\par
+      Width           =   1215\par
+   End\par
+   Begin VB.Frame Frame2 \par
+      Caption         =   "Activator Control"\par
+      Height          =   975\par
+      Left            =   5160\par
+      TabIndex        =   34\par
+      Top             =   6240\par
+      Width           =   1575\par
+      Begin VB.OptionButton opt_actFetch \par
+         Caption         =   "Fetch"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   36\par
+         Top             =   600\par
+         Width           =   1095\par
+      End\par
+      Begin VB.OptionButton opt_actRelease \par
+         Caption         =   "Release"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   35\par
+         Top             =   240\par
+         Width           =   1095\par
+      End\par
+   End\par
+   Begin VB.Frame Frame1 \par
+      Caption         =   "Comm Mode"\par
+      Height          =   975\par
+      Left            =   3120\par
+      TabIndex        =   26\par
+      Top             =   5160\par
+      Width           =   1575\par
+      Begin VB.OptionButton opt_modeMachine \par
+         Caption         =   "Machine"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   28\par
+         Top             =   600\par
+         Width           =   1095\par
+      End\par
+      Begin VB.OptionButton opt_modeHuman \par
+         Caption         =   "Human"\par
+         Height          =   255\par
+         Left            =   120\par
+         TabIndex        =   27\par
+         Top             =   240\par
+         Width           =   1095\par
+      End\par
+   End\par
+   Begin VB.CheckBox chk_crcFlg \par
+      Caption         =   "Use CRC"\par
+      Height          =   255\par
+      Left            =   240\par
+      TabIndex        =   22\par
+      Top             =   5040\par
+      Width           =   2295\par
+   End\par
+   Begin VB.TextBox txt_cupPos \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   4560\par
+      TabIndex        =   33\par
+      Text            =   "0"\par
+      Top             =   6600\par
+      Width           =   375\par
+   End\par
+   Begin VB.TextBox txt_rspStatus \par
+      Height          =   375\par
+      Left            =   4200\par
+      TabIndex        =   20\par
+      TabStop         =   0   'False\par
+      Top             =   3960\par
+      Width           =   1575\par
+   End\par
+   Begin VB.TextBox txt_rsp \par
+      BeginProperty Font \par
+         Name            =   "MS Sans Serif"\par
+         Size            =   9.75\par
+         Charset         =   0\par
+         Weight          =   400\par
+         Underline       =   0   'False\par
+         Italic          =   0   'False\par
+         Strikethrough   =   0   'False\par
+      EndProperty\par
+      Height          =   375\par
+      Left            =   1200\par
+      TabIndex        =   21\par
+      TabStop         =   0   'False\par
+      Top             =   4440\par
+      Width           =   5295\par
+   End\par
+   Begin VB.CommandButton cmd_getCommMode \par
+      Caption         =   "Get Comm Mode"\par
+      Height          =   495\par
+      Left            =   240\par
+      TabIndex        =   23\par
+      Top             =   5520\par
+      Width           =   1215\par
+   End\par
+   Begin VB.CommandButton cmd_setCommMode \par
+      Caption         =   "Set Comm Mode"\par
+      Height          =   495\par
+      Left            =   1680\par
+      TabIndex        =   25\par
+      Top             =   5520\par
+      Width           =   1215\par
+   End\par
+   Begin VB.Label Label21 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Word Index"\par
+      Height          =   450\par
+      Left            =   4440\par
+      TabIndex        =   79\par
+      Top             =   9360\par
+      Width           =   735\par
+   End\par
+   Begin VB.Label Label20 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Ctrl Val (Hex)"\par
+      Height          =   495\par
+      Left            =   5280\par
+      TabIndex        =   77\par
+      Top             =   9360\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label19 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Loc"\par
+      Height          =   255\par
+      Left            =   8040\par
+      TabIndex        =   74\par
+      Top             =   8640\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label18 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Parity"\par
+      Height          =   255\par
+      Left            =   3240\par
+      TabIndex        =   69\par
+      Top             =   120\par
+      Width           =   855\par
+   End\par
+   Begin VB.Label Label17 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Baud"\par
+      Height          =   255\par
+      Left            =   2160\par
+      TabIndex        =   68\par
+      Top             =   120\par
+      Width           =   855\par
+   End\par
+   Begin VB.Label Label16 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Cmd ID"\par
+      Height          =   255\par
+      Left            =   240\par
+      TabIndex        =   67\par
+      Top             =   3960\par
+      Width           =   855\par
+   End\par
+   Begin VB.Line Line2 \par
+      BorderWidth     =   5\par
+      X1              =   120\par
+      X2              =   8640\par
+      Y1              =   3840\par
+      Y2              =   3840\par
+   End\par
+   Begin VB.Label Label15 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "State"\par
+      Height          =   255\par
+      Left            =   1680\par
+      TabIndex        =   66\par
+      Top             =   1200\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label14 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Input Changed"\par
+      Height          =   255\par
+      Left            =   120\par
+      TabIndex        =   65\par
+      Top             =   1200\par
+      Width           =   1335\par
+   End\par
+   Begin VB.Label Label13 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "State"\par
+      Height          =   255\par
+      Left            =   6480\par
+      TabIndex        =   60\par
+      Top             =   1920\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label12 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "State"\par
+      Height          =   255\par
+      Left            =   4080\par
+      TabIndex        =   59\par
+      Top             =   1920\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label11 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "State"\par
+      Height          =   255\par
+      Left            =   1680\par
+      TabIndex        =   58\par
+      Top             =   1920\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label10 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Tube State"\par
+      Height          =   255\par
+      Left            =   5160\par
+      TabIndex        =   56\par
+      Top             =   8160\par
+      Width           =   1335\par
+   End\par
+   Begin VB.Label Label9 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Tube Index"\par
+      Height          =   450\par
+      Left            =   4440\par
+      TabIndex        =   55\par
+      Top             =   8430\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label8 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Ack Value (Hex)"\par
+      Height          =   495\par
+      Left            =   4200\par
+      TabIndex        =   54\par
+      Top             =   7560\par
+      Width           =   855\par
+   End\par
+   Begin VB.Label Label7 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Stat Word"\par
+      Height          =   255\par
+      Left            =   3120\par
+      TabIndex        =   53\par
+      Top             =   7800\par
+      Width           =   855\par
+   End\par
+   Begin VB.Line Line1 \par
+      BorderWidth     =   5\par
+      X1              =   120\par
+      X2              =   7320\par
+      Y1              =   1080\par
+      Y2              =   1080\par
+   End\par
+   Begin VB.Label Label6 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Attempts"\par
+      Height          =   255\par
+      Left            =   5040\par
+      TabIndex        =   52\par
+      Top             =   120\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label5 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Timeout"\par
+      Height          =   255\par
+      Left            =   4320\par
+      TabIndex        =   51\par
+      Top             =   120\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label4 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Port"\par
+      Height          =   255\par
+      Left            =   1440\par
+      TabIndex        =   50\par
+      Top             =   120\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label1 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Pos"\par
+      Height          =   255\par
+      Left            =   4440\par
+      TabIndex        =   49\par
+      Top             =   6360\par
+      Width           =   615\par
+   End\par
+   Begin VB.Label Label3 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Status"\par
+      Height          =   255\par
+      Left            =   3240\par
+      TabIndex        =   48\par
+      Top             =   3960\par
+      Width           =   855\par
+   End\par
+   Begin VB.Label Label2 \par
+      Alignment       =   2  'Center\par
+      Caption         =   "Response"\par
+      Height          =   255\par
+      Left            =   240\par
+      TabIndex        =   24\par
+      Top             =   4560\par
+      Width           =   855\par
+   End\par
+End\par
+Attribute VB_Name = "Form1"\par
+Attribute VB_GlobalNameSpace = False\par
+Attribute VB_Creatable = False\par
+Attribute VB_PredeclaredId = True\par
+Attribute VB_Exposed = False\par
+Option Explicit\par
+\par
+Private m_crcFlg As Boolean\par
+Private m_commMode As Integer\par
+Private m_actCtrl As eASActCtrls\par
+Private m_tubeState As eASTubeStates\par
+\par
+Public Sub clr_rsp_info()\par
+\par
+  txt_cmdID.Text = ""\par
+  txt_rspStatus.Text = ""\par
+  txt_rsp.Text = ""\par
+End Sub\par
+\par
+Private Sub autoSmplr_cmdCompleted(ByVal cmdId As eASCmdIds, cmdIdTxt As String, ByVal commStat As eASCommStats, rspData As String)\par
+\par
+  Select Case (cmdId)\par
+    Case eASCmdIds.ACK_ST\par
+      txt_cmdID.Text = "ACK_ST"\par
+      \par
+    Case eASCmdIds.CLR_ERP\par
+      txt_cmdID.Text = "CLR_ERP"\par
+      \par
+    Case eASCmdIds.NONE\par
+      txt_cmdID.Text = "NONE"\par
+      \par
+    Case eASCmdIds.RD_CM\par
+      txt_cmdID.Text = "RD_CM"\par
+      \par
+    Case eASCmdIds.RD_CUP\par
+      txt_cmdID.Text = "RD_CUP"\par
+      \par
+    Case eASCmdIds.RD_ERP\par
+      txt_cmdID.Text = "RD_ERP"\par
+      \par
+    Case eASCmdIds.RD_ST\par
+      txt_cmdID.Text = "RD_ST"\par
+      \par
+    Case eASCmdIds.RD_TUB\par
+      txt_cmdID.Text = "RD_TUB"\par
+      \par
+    Case eASCmdIds.RD_TUBS\par
+      txt_cmdID.Text = "RD_TUBS"\par
+      \par
+    Case eASCmdIds.WR_CM\par
+      txt_cmdID.Text = "WR_CM"\par
+      \par
+    Case eASCmdIds.WR_CUP\par
+      txt_cmdID.Text = "WR_CUP"\par
+      \par
+    Case eASCmdIds.WR_CUPCTRL\par
+      txt_cmdID.Text = "WR_CUPCTRL"\par
+      \par
+    Case eASCmdIds.WR_TUBSTATE\par
+      txt_cmdID.Text = "WR_TUBSTATE"\par
+  \par
+    Case eASCmdIds.RD_CTLS\par
+      txt_cmdID.Text = "RD_CTLS"\par
+  \par
+    Case eASCmdIds.RD_CTL\par
+      txt_cmdID.Text = "RD_CTL"\par
+  \par
+    Case eASCmdIds.WR_CTL\par
+      txt_cmdID.Text = "WR_CTL"\par
+  \par
+    Case eASCmdIds.RD_VER\par
+      txt_cmdID.Text = "RD_VER"\par
+  \par
+    Case eASCmdIds.SVY_LOC\par
+      txt_cmdID.Text = "SVY_LOC"\par
+      \par
+    Case eASCmdIds.PRK_ARM\par
+      txt_cmdID.Text = "PRK_ARM"\par
+    \par
+    Case eASCmdIds.ABT_OPS\par
+      txt_cmdID.Text = "ABT_OPS"\par
+    \par
+    Case eASCmdIds.WR_REB\par
+      txt_cmdID.Text = "WR_REB"\par
+  End Select\par
+\par
+  Select Case (commStat)\par
+    Case eASCommStats.RSP_GOOD\par
+      txt_rspStatus.Text = "RSP_GOOD"\par
+    \par
+    Case eASCommStats.COMMS_NOT_INIT\par
+      txt_rspStatus.Text = "COMMS_NOT_INIT"\par
+    \par
+    Case eASCommStats.RSP_TIMEOUT\par
+      txt_rspStatus.Text = "RSP_TIMEOUT"\par
+    \par
+    Case eASCommStats.RSP_ERR\par
+      txt_rspStatus.Text = "RSP_ERR"\par
+    \par
+    Case eASCommStats.RSP_INV_SIZE\par
+      txt_rspStatus.Text = "RSP_INV_SIZE"\par
+    \par
+    Case eASCommStats.RSP_INV\par
+      txt_rspStatus.Text = "RSP_INV"\par
+    \par
+    Case eASCommStats.ERR_CRC\par
+      txt_rspStatus.Text = "ERR_CRC"\par
+    \par
+    Case eASCommStats.ERR_BREAK\par
+      txt_rspStatus.Text = "ERR_BREAK"\par
+    \par
+    Case eASCommStats.ERR_FRAME\par
+      txt_rspStatus.Text = "ERR_FRAME"\par
+    \par
+    Case eASCommStats.ERR_OVERRUN\par
+      txt_rspStatus.Text = "ERR_OVERRUN"\par
+    \par
+    Case eASCommStats.ERR_OVERFLOW\par
+      txt_rspStatus.Text = "ERR_OVERFLOW"\par
+    \par
+    Case eASCommStats.ERR_PARITY\par
+      txt_rspStatus.Text = "ERR_PARITY"\par
+  End Select\par
+  \par
+  txt_rsp.Text = rspData\par
+  \par
+End Sub\par
+\par
+Private Sub autoSmplr_comInputChanged(ByVal comEvent As eASComEvents, ByVal state As Boolean)\par
+\par
+  Select Case comEvent\par
+    Case comEventCTS\par
+      txt_inpChanged.Text = "CTS"\par
+\par
+    Case comEventDCD\par
+      txt_inpChanged.Text = "DCD"\par
+      \par
+    Case comEventDSR\par
+      txt_inpChanged.Text = "DSR"\par
+      \par
+    Case comEventRing\par
+      txt_inpChanged.Text = "RI"\par
+  End Select\par
+  \par
+  If (state = True) Then\par
+    txt_inpChangedState.Text = "ON"\par
+  Else\par
+    txt_inpChangedState.Text = "OFF"\par
+  End If\par
+End Sub\par
+\par
+Private Sub chk_crcFlg_Click()\par
+\par
+  m_crcFlg = chk_crcFlg.Value\par
+End Sub\par
+\par
+Private Sub cmd_abortOps_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.abort_operations m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_ackStatWord_Click()\par
+  Dim statWord As Integer\par
+  Dim ackVal As Integer\par
+\par
+  If (txt_statWord.Text = "") Or (IsNumeric(txt_statWord.Text) = False) Then\par
+    txt_statWord.Text = "1"\par
+  End If\par
+  \par
+  statWord = txt_statWord.Text\par
+\par
+  If (txt_ackVal.Text = "") Or (IsNumeric("&H" & txt_ackVal.Text) = False) Then\par
+    txt_ackVal.Text = "1"\par
+  End If\par
+  \par
+  ackVal = "&H" & txt_ackVal.Text\par
+\par
+  clr_rsp_info\par
+  autoSmplr.ack_status_word statWord, ackVal, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_closeComms_Click()\par
+  \par
+  clr_rsp_info\par
+  autoSmplr.close_comms\par
+End Sub\par
+\par
+Private Sub cmd_clrErrors_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.clear_errors m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getAllTubesStates_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_all_tubes_state m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getCommMode_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_comm_mode m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getCtrlWord_Click()\par
+  Dim ctrlWordIndx As Integer\par
+\par
+  If (txt_ctrlWordIndx(1).Text = "") Or (IsNumeric(txt_ctrlWordIndx(1).Text) = False) Then\par
+    txt_ctrlWordIndx(1).Text = "0"\par
+  End If\par
+  \par
+  ctrlWordIndx = txt_ctrlWordIndx(1).Text\par
+  \par
+  clr_rsp_info\par
+  autoSmplr.get_ctrl_word ctrlWordIndx, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getCTSState_Click()\par
+  Dim rc As Boolean\par
+  Dim state As Boolean\par
+  \par
+  rc = autoSmplr.get_cts_state(state)\par
+  \par
+  If (rc = True) Then\par
+    If (state = True) Then\par
+      txt_ctsState.Text = "ON"\par
+    Else\par
+      txt_ctsState.Text = "OFF"\par
+    End If\par
+  Else\par
+    txt_ctsState.Text = "ERR"\par
+  End If\par
+End Sub\par
+\par
+Private Sub cmd_getCupPos_Click()\par
+  \par
+  clr_rsp_info\par
+  autoSmplr.get_cup_pos m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getDCDState_Click()\par
+  Dim rc As Boolean\par
+  Dim state As Boolean\par
+  \par
+  rc = autoSmplr.get_dcd_state(state)\par
+  \par
+  If (rc = True) Then\par
+    If (state = True) Then\par
+      txt_dcdState.Text = "ON"\par
+    Else\par
+      txt_dcdState.Text = "OFF"\par
+    End If\par
+  Else\par
+    txt_dcdState.Text = "ERR"\par
+  End If\par
+End Sub\par
+\par
+Private Sub cmd_getDSRState_Click()\par
+  Dim rc As Boolean\par
+  Dim state As Boolean\par
+  \par
+  rc = autoSmplr.get_dsr_state(state)\par
+  \par
+  If (rc = True) Then\par
+    If (state = True) Then\par
+      txt_dsrState.Text = "ON"\par
+    Else\par
+      txt_dsrState.Text = "OFF"\par
+    End If\par
+  Else\par
+    txt_dsrState.Text = "ERR"\par
+  End If\par
+End Sub\par
+\par
+Private Sub cmd_getErrors_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_errors m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getNumCtrlWords_Click()\par
+  \par
+  clr_rsp_info\par
+  autoSmplr.get_num_ctrl_words m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getStatWord_Click()\par
+  Dim statWord As Integer\par
+\par
+  If (txt_statWord.Text = "") Or (IsNumeric(txt_statWord.Text) = False) Then\par
+    txt_statWord.Text = "1"\par
+  End If\par
+  \par
+  statWord = txt_statWord.Text\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_status_word statWord, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getTubeState_Click()\par
+  Dim tubeIndx As Integer\par
+\par
+  If (txt_tubeIndx(0).Text = "") Or (IsNumeric(txt_tubeIndx(0).Text) = False) Then\par
+    txt_tubeIndx(0).Text = "0"\par
+  End If\par
+  \par
+  tubeIndx = txt_tubeIndx(0).Text\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_tube_state tubeIndx, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_getVerInfo_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.get_version_info m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_initComms_Click()\par
+  Dim port As Integer\par
+  Dim baud As Integer\par
+  Dim parity As String\par
+  Dim rspTimeout As Long\par
+  Dim attempts As Integer\par
+  Dim rc As Boolean\par
+\par
+  If (txt_port.Text = "") Or (IsNumeric(txt_port.Text) = False) Then\par
+    txt_port.Text = "0"\par
+  End If\par
+  \par
+  port = txt_port.Text\par
+\par
+  If (lst_baud.ListIndex = -1) Then\par
+    lst_baud.ListIndex = 2\par
+  End If\par
+  \par
+  baud = lst_baud.Text\par
+\par
+  If (lst_parity.ListIndex = -1) Then\par
+    lst_baud.ListIndex = 0\par
+  End If\par
+  \par
+  parity = Left(lst_parity.Text, 1)\par
+\par
+  If (txt_rspTimeout.Text = "") Or (IsNumeric(txt_rspTimeout.Text) = False) Then\par
+    txt_rspTimeout.Text = "2000"\par
+  End If\par
+  \par
+  rspTimeout = txt_rspTimeout.Text\par
+\par
+  If (txt_attempts.Text = "") Or (IsNumeric(txt_attempts.Text) = False) Then\par
+    txt_attempts.Text = "1"\par
+  End If\par
+  \par
+  attempts = txt_attempts.Text\par
+\par
+  clr_rsp_info\par
+  \par
+  If (autoSmplr.init_comms(port, baud, parity, rspTimeout, attempts) = False) Then\par
+    MsgBox ("Problem with configuring Auto-Sampler comm port " & port & ". Verify that this port is available for usage."), vbCritical\par
+  End If\par
+End Sub\par
+\par
+Private Sub cmd_parkArm_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.park_arm m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_rebootSys_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.reboot_system m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_setCommMode_Click()\par
+\par
+  clr_rsp_info\par
+  autoSmplr.set_comm_mode m_commMode, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_setCupPos_Click()\par
+  Dim cupPos As Integer\par
+\par
+  If (txt_cupPos.Text = "") Or (IsNumeric(txt_cupPos.Text) = False) Then\par
+    txt_cupPos.Text = "0"\par
+  End If\par
+  \par
+  cupPos = txt_cupPos.Text\par
+ \par
+  clr_rsp_info\par
+  autoSmplr.set_cup_pos cupPos, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_setCupPosCtrl_Click()\par
+\par
+  Dim cupPos As Integer\par
+\par
+  If (txt_cupPos.Text = "") Or (IsNumeric(txt_cupPos.Text) = False) Then\par
+    txt_cupPos.Text = "0"\par
+  End If\par
+  \par
+  cupPos = txt_cupPos.Text\par
+ \par
+  clr_rsp_info\par
+  autoSmplr.set_cup_pos_ctrl cupPos, m_actCtrl, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_setDTRState_Click()\par
+\par
+  autoSmplr.set_dtr_state opt_dtrOn.Value\par
+End Sub\par
+\par
+Private Sub cmd_setRTSState_Click()\par
+\par
+  autoSmplr.set_rts_state opt_rtsOn.Value\par
+End Sub\par
+\par
+Private Sub cmd_setCtrlWord_Click()\par
+  Dim ctrlWordIndx As Integer\par
+  Dim ctrlVal As Integer\par
+\par
+  If (txt_ctrlWordIndx(1).Text = "") Or (IsNumeric(txt_ctrlWordIndx(1).Text) = False) Then\par
+    txt_ctrlWordIndx(1).Text = "0"\par
+  End If\par
+  \par
+  ctrlWordIndx = txt_ctrlWordIndx(1).Text\par
+  \par
+  If (txt_ctrlVal.Text = "") Or (IsNumeric("&H" & txt_ctrlVal.Text) = False) Then\par
+    txt_ctrlVal.Text = "0"\par
+  End If\par
+  \par
+  ctrlVal = "&H" & txt_ctrlVal.Text\par
+\par
+  clr_rsp_info\par
+  autoSmplr.set_ctrl_word ctrlWordIndx, ctrlVal, False, 0, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_setTubeState_Click()\par
+  Dim tubeIndx As Integer\par
+\par
+  If (txt_tubeIndx(0).Text = "") Or (IsNumeric(txt_tubeIndx(0).Text) = False) Then\par
+    txt_tubeIndx(0).Text = "0"\par
+  End If\par
+  \par
+  tubeIndx = txt_tubeIndx(0).Text\par
+\par
+  clr_rsp_info\par
+  autoSmplr.set_tube_state tubeIndx, m_tubeState, m_crcFlg\par
+End Sub\par
+\par
+Private Sub cmd_surveyArmLoc_Click()\par
+  Dim armLoc As Integer\par
+\par
+  If (txt_armLoc.Text = "") Or (IsNumeric(txt_armLoc.Text) = False) Then\par
+    txt_armLoc.Text = "0"\par
+  End If\par
+  \par
+  armLoc = txt_armLoc.Text\par
+  \par
+  clr_rsp_info\par
+  autoSmplr.survey_arm_loc armLoc, m_crcFlg\par
+End Sub\par
+\par
+Private Sub Form_Load()\par
+  Dim rc As Boolean\par
+\par
+  lst_baud.ListIndex = 2\par
+  lst_parity.ListIndex = 0\par
+  opt_rtsOff.Value = True\par
+  opt_dtrOn.Value = True\par
+  chk_crcFlg.Value = 1\par
+  opt_modeMachine.Value = True\par
+  opt_actFetch.Value = True\par
+  lst_tubeState.ListIndex = 2\par
+End Sub\par
+\par
+Private Sub Form_Terminate()\par
+  \par
+  autoSmplr.close_comms\par
+End Sub\par
+\par
+Private Sub lst_tubeState_Click()\par
+\par
+  m_tubeState = lst_tubeState.ListIndex\par
+End Sub\par
+\par
+Private Sub opt_actFetch_Click()\par
+\par
+  If (opt_actFetch.Value = True) Then\par
+    m_actCtrl = eASActCtrls.FETCH_CUP\par
+  End If\par
+End Sub\par
+\par
+Private Sub opt_actRelease_Click()\par
+\par
+  If (opt_actRelease.Value = True) Then\par
+    m_actCtrl = eASActCtrls.RELEASE_CUP\par
+  End If\par
+End Sub\par
+\par
+Private Sub opt_modeHuman_Click()\par
+\par
+  If (opt_modeHuman.Value = True) Then\par
+    m_commMode = 0\par
+  End If\par
+End Sub\par
+\par
+Private Sub opt_modeMachine_Click()\par
+\par
+  If (opt_modeMachine.Value = True) Then\par
+    m_commMode = 1\par
+  End If\par
+End Sub\par
+\par
+}
+ 

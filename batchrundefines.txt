@@ -1,0 +1,202 @@
+Option Explicit
+
+' -------------------------------------------------------------------------
+' Auto-Sampler constants
+' -------------------------------------------------------------------------
+
+' Auto-Sampler misc. defines
+Public Const AUTO_SMPLR_BAUD = 9600           ' 9600 baud rate
+Public Const AUTO_SMPLR_CRC_USAGE = True      ' Use CRC error detection
+Public Const AUTO_SMPLR_ENTRY_ZONE_POS = 31
+Public Const AUTO_SMPLR_EXIT_ZONE_POS = 32
+Public Const AUTO_SMPLR_NUM_RETRIES = 2
+Public Const AUTO_SMPLR_OUT_WAY_POS = 33
+Public Const AUTO_SMPLR_PARITY = "N"          ' no parity
+Public Const AUTO_SMPLR_RSP_TIMEOUT = 1000    ' 1 second
+Public Const AUTO_SMPLR_SMPL_WIN_POS = 30
+Public Const AUTO_SMPLR_CUP_CNT_CTRL_WORD_OFFSET = 100           ' 9600 baud rate
+Public Const AUTO_SMPLR_UNKNOWN_CUPS = -1
+Public Const AUTO_SMPLR_UNKNOWN_POS = -1
+Public Const DFLT_AUTO_SMPLR_PORT = 3         ' comm port 3
+Public Const MAX_AUTO_SMPLR_TOWERS = 34       ' max. number of auto-sampler towers
+Public Const MAX_AUTO_SMPLR_TOWER_CUPS = 24   ' max. number of cups per auto-sampler tower
+
+
+' -------------------------------------------------------------------------
+' Auto-Sampler variables
+' -------------------------------------------------------------------------
+
+Public AutoSmplrActDumpTower As Integer
+Public AutoSmplrActFetchTower As Integer
+Public AutoSmplrCupPosition As Integer
+Public AutoSmplrErrors() As Integer
+Public AutoSmplrJawStatus As Integer
+Public AutoSmplrStatus As Integer
+Public AutoSmplrSwitchStatus As Integer
+Public AutoSmplrTowerNumCups(MAX_AUTO_SMPLR_TOWERS - 1) As Integer
+#If Not (offLine = -1) Then
+Public AutoSmplrTowerState(MAX_AUTO_SMPLR_TOWERS - 1) As AutoSamplerCommCtrl.eASTubeStates
+#End If
+Public AutoSmplrVersion As String
+Public NumAutoSmplrErrors As Integer
+Public NumAutoSmplrTowers As Integer
+Public tempNumAutoSmplrTowers As Integer
+
+
+' -------------------------------------------------------------------------
+' Auto-Sampler enumerations
+' -------------------------------------------------------------------------
+
+' Auto-Sampler command states
+Public Enum AUTO_SAMPLR_CMD_STATES
+  ASCS_COMPLETED_ERR = -1         ' command completed with error
+  ASCS_COMPLETED_GOOD             ' command completed successfully
+  ASCS_IN_PROGRESS                ' command in progess
+End Enum
+
+' Auto-Sampler operation states
+Public Enum AUTO_SAMPLR_OPER_STATES
+  ASOS_IDLE = 0                   ' auto-sampler idling
+  ASOS_SURVEY_TUBE                ' auto-sampler surveying tube/sample window
+  ASOS_SETUP_TUBE                 ' auto-sampler setup tube/sample window
+  ASOS_FETCH_CUP                  ' auto-sampler moving arm to fetch cup
+  ASOS_RELEASE_CUP                ' auto-sampler moving arm to release cup
+  ASOS_MOVE_ARM                   ' auto-sampler moving arm
+  ASOS_PARK_ARM                   ' auto-sampler parking arm
+End Enum
+
+' Auto-Sampler poll status command states
+Public Enum POLL_STATUS_STATES
+  ASPS_COMPLETED_ESTOP = -3       ' poll status word completed due to emergency stop
+  ASPS_COMPLETED_ABORT            ' poll status word completed due to abort
+  ASPS_COMPLETED_ERR              ' poll status word completed with error
+  ASPS_COMPLETED_GOOD             ' poll status word completed successfully
+  ASPS_IN_PROGRESS                ' poll status word in progess
+End Enum
+
+
+' -------------------------------------------------------------------------
+' Batch run constants
+' -------------------------------------------------------------------------
+
+' Batch configuration columns
+Public Const BATCH_CFG_PROD_INI_COL = 1
+Public Const BATCH_CFG_LOAD_TOWER_COL = BATCH_CFG_PROD_INI_COL + 1
+Public Const BATCH_CFG_UNLOAD_TOWER_COL = BATCH_CFG_LOAD_TOWER_COL + 1
+Public Const BATCH_CFG_PROD_NAME_COL = BATCH_CFG_UNLOAD_TOWER_COL + 1
+Public Const BATCH_CFG_SAMPLE_ID_COL = BATCH_CFG_PROD_NAME_COL + 1
+Public Const BATCH_CFG_COMMENT_COL = BATCH_CFG_SAMPLE_ID_COL + 1
+Public Const BATCH_CFG_NUM_STD_COLS = BATCH_CFG_COMMENT_COL
+Public Const BATCH_CFG_USER1_COL = BATCH_CFG_NUM_STD_COLS + 1
+
+Public Const BATCH_CFG_MANUAL_PROD_INI_COL = 1
+Public Const BATCH_CFG_MANUAL_COMMENT_COL = 2
+Public Const BATCH_CFG_MANUAL_SAMPLE_ID_COL = 3
+Public Const BATCH_CFG_MANUAL_PROD_NAME_COL = 4
+
+Public Const BATCH_CFG_MANUAL_USER1_COL = BATCH_CFG_MANUAL_PROD_NAME_COL + 1
+
+' Batch run columns
+Public Const BATCH_PROD_NAME_COL = 1
+Public Const BATCH_SAMPLE_ID_COL = BATCH_PROD_NAME_COL + 1
+Public Const BATCH_LOAD_TOWER_COL = BATCH_SAMPLE_ID_COL + 1
+Public Const BATCH_LOAD_CUP_NUM_COL = BATCH_LOAD_TOWER_COL + 1
+Public Const BATCH_UNLOAD_TOWER_COL = BATCH_LOAD_CUP_NUM_COL + 1
+Public Const BATCH_UNLOAD_CUP_NUM_COL = BATCH_UNLOAD_TOWER_COL + 1
+Public Const BATCH_STATUS_COL = BATCH_UNLOAD_CUP_NUM_COL + 1
+
+' -------------------------------------------------------------------------
+' Batch run enumerations
+' -------------------------------------------------------------------------
+
+' States used for reference and sample timer expired functions
+Public Enum BATCH_TMR_STATES
+  BTS_BATCH_INIT = 0      ' initialize batch
+  BTS_SURVEY_TOWERS       ' survey towers, entry & exit zones and sample window
+  BTS_SMPL_INIT           ' initialize sample run
+  BTS_START_SCAN          ' start sample scan
+  BTS_UNLOAD_QUE_SMPL     ' unload any queued completed sample
+  BTS_QUE_NEXT_SMPL       ' queue next available sample for scanning
+  BTS_LOAD_QUE_SMPL       ' load any queued sample for scanning
+  BTS_SCAN_CMP            ' waiting for reference/sample scan to complete
+  BTS_POS_SMPL_WIN        ' position arm over sample window while scanning
+  BTS_SMPL_CMPL           ' sample completed
+  BTS_BATCH_ERR           ' auto-sampler operation/communication error
+  BTS_ABORT_BATCH         ' batch was aborted due to user
+  BTS_ESTOP_BATCH         ' batch was stopped due to user emergency
+End Enum
+
+Public Enum BATCH_SAMPLE_STATUS
+  BSS_IDLE = 0            ' sample waitig to be scanned
+  BSS_SCAN_COMPLETE       ' scan completed
+  BSS_SAMPLE_COMPLETE     ' sample completed
+  BSS_PROD_ERROR          ' sample product file load error
+  BSS_SMPL_ID_ERROR       ' sample ID assignment error
+  BSS_SMPL_LOAD_ERROR     ' sample load error
+  BSS_SMPL_UNLOAD_ERROR   ' sample unload error
+  BSS_SCAN_ERROR          ' sample scan error
+  BSS_BATCH_ABORT         ' batch aborted
+  BSS_PRED_ERROR          ' sample prediction error
+  BSS_AS_COMM_ERROR       ' auto-sampler communication error
+  BSS_AS_OPER_ERROR       ' auto-sampler operation error
+End Enum
+
+' -------------------------------------------------------------------------
+' Batch run structures
+' -------------------------------------------------------------------------
+
+' User input configuration info
+Public Type UsrInputCfgInfo
+  enabled As Boolean
+  combo As Boolean
+  fieldName As String
+End Type
+
+' Batch run configuration info
+Public Type BatchRunCfgInfo
+  loadTower As String
+  unloadTower As String
+  prodName As String
+  prodIni As String
+  manEntryFlg As Boolean
+  sampleId As String
+  Comment As String
+  usrInputFlg As Boolean
+  usrInputs(1 To MAX_MAN_INPUTS) As String
+  smplStatus As BATCH_SAMPLE_STATUS
+End Type
+
+Public Type BatchRunCfgInfoManStruct
+  prodName As String
+  prodIni As String
+  manEntryFlg As Boolean
+  sampleId As String
+  Comment As String
+  usrInputFlg As Boolean
+  usrInputs(1 To MAX_MAN_INPUTS) As String
+  smplStatus As BATCH_SAMPLE_STATUS
+End Type
+
+
+Public Type SampleCupInfo
+  sampleNum As Integer
+  fetchCupNum As Integer
+End Type
+
+Public Type PropResultsInfo
+  Name As String
+  predVal As String
+  mDistVal As String
+  sResidVal As String
+  outLierVal As String
+  nDistVal As String
+  interVal As String
+  slopeVal As String
+End Type
+
+Public Type SampleScanInfo
+  scanTime As String
+  usrInputs(1 To MAX_MAN_INPUTS) As String
+  numprops As Integer
+  results(1 To MAX_NUM_PROPS) As PropResultsInfo
+End Type
